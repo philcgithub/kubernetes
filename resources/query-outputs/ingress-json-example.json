@@ -1,0 +1,187 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "extensions/v1beta1",
+            "kind": "Ingress",
+            "metadata": {
+                "annotations": {
+                    "cert-manager.io/cluster-issuer": "letsencrypt-core-gke-pcherry-uk",
+                    "kubernetes.io/ingress.class": "nginx",
+                    "kubernetes.io/tls-acme": "false",
+                    "meta.helm.sh/release-name": "cloudbees-core",
+                    "meta.helm.sh/release-namespace": "cloudbees-core",
+                    "nginx.ingress.kubernetes.io/app-root": "/cjoc/teams-check/",
+                    "nginx.ingress.kubernetes.io/proxy-body-size": "50m",
+                    "nginx.ingress.kubernetes.io/proxy-request-buffering": "off",
+                    "nginx.ingress.kubernetes.io/ssl-redirect": "true"
+                },
+                "creationTimestamp": "2020-08-10T11:29:17Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/instance": "cloudbees-core",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "cloudbees-core",
+                    "helm.sh/chart": "cloudbees-core-3.16.1_a3fdb4ae4e87"
+                },
+                "name": "cjoc",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "100242849",
+                "selfLink": "/apis/extensions/v1beta1/namespaces/cloudbees-core/ingresses/cjoc",
+                "uid": "e94b5416-64d6-4d25-87b7-6b6dfb78eea4"
+            },
+            "spec": {
+                "rules": [
+                    {
+                        "host": "core-gke.pcherry.uk",
+                        "http": {
+                            "paths": [
+                                {
+                                    "backend": {
+                                        "serviceName": "cjoc",
+                                        "servicePort": 80
+                                    },
+                                    "path": "/cjoc"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "tls": [
+                    {
+                        "hosts": [
+                            "core-gke.pcherry.uk"
+                        ],
+                        "secretName": "cbci-priv-key-letsencrypt"
+                    }
+                ]
+            },
+            "status": {
+                "loadBalancer": {
+                    "ingress": [
+                        {
+                            "ip": "35.195.28.87"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "apiVersion": "extensions/v1beta1",
+            "kind": "Ingress",
+            "metadata": {
+                "annotations": {
+                    "nginx.ingress.kubernetes.io/proxy-body-size": "50m",
+                    "nginx.ingress.kubernetes.io/proxy-request-buffering": "off",
+                    "nginx.ingress.kubernetes.io/ssl-redirect": "true"
+                },
+                "creationTimestamp": "2020-08-10T14:44:32Z",
+                "finalizers": [
+                    "networking.gke.io/ingress-finalizer-V2"
+                ],
+                "generation": 1,
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-a",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-a",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-a",
+                    "type": "master"
+                },
+                "name": "master-a",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "100242850",
+                "selfLink": "/apis/extensions/v1beta1/namespaces/cloudbees-core/ingresses/master-a",
+                "uid": "7763bf50-e987-466d-9670-3ecf4e73af81"
+            },
+            "spec": {
+                "rules": [
+                    {
+                        "host": "core-gke.pcherry.uk",
+                        "http": {
+                            "paths": [
+                                {
+                                    "backend": {
+                                        "serviceName": "master-a",
+                                        "servicePort": 80
+                                    },
+                                    "path": "/master-a/"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "loadBalancer": {
+                    "ingress": [
+                        {
+                            "ip": "35.195.28.87"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "apiVersion": "extensions/v1beta1",
+            "kind": "Ingress",
+            "metadata": {
+                "annotations": {
+                    "nginx.ingress.kubernetes.io/proxy-body-size": "50m",
+                    "nginx.ingress.kubernetes.io/proxy-request-buffering": "off",
+                    "nginx.ingress.kubernetes.io/ssl-redirect": "true"
+                },
+                "creationTimestamp": "2020-08-10T14:39:44Z",
+                "finalizers": [
+                    "networking.gke.io/ingress-finalizer-V2"
+                ],
+                "generation": 1,
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-b",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-b",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-b",
+                    "type": "master"
+                },
+                "name": "master-b",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "100242851",
+                "selfLink": "/apis/extensions/v1beta1/namespaces/cloudbees-core/ingresses/master-b",
+                "uid": "87b47734-99e1-401b-bfd5-aae547859e18"
+            },
+            "spec": {
+                "rules": [
+                    {
+                        "host": "core-gke.pcherry.uk",
+                        "http": {
+                            "paths": [
+                                {
+                                    "backend": {
+                                        "serviceName": "master-b",
+                                        "servicePort": 80
+                                    },
+                                    "path": "/master-b/"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "loadBalancer": {
+                    "ingress": [
+                        {
+                            "ip": "35.195.28.87"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

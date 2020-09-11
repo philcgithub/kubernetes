@@ -1,0 +1,734 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "apps/v1",
+            "kind": "StatefulSet",
+            "metadata": {
+                "annotations": {
+                    "meta.helm.sh/release-name": "cloudbees-core",
+                    "meta.helm.sh/release-namespace": "cloudbees-core"
+                },
+                "creationTimestamp": "2020-08-10T11:29:17Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/component": "cjoc",
+                    "app.kubernetes.io/instance": "cloudbees-core",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "cloudbees-core",
+                    "com.cloudbees.cje.tenant": "cjoc",
+                    "com.cloudbees.cje.type": "cjoc",
+                    "helm.sh/chart": "cloudbees-core-3.16.1_a3fdb4ae4e87"
+                },
+                "name": "cjoc",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "100243641",
+                "selfLink": "/apis/apps/v1/namespaces/cloudbees-core/statefulsets/cjoc",
+                "uid": "2da70f5d-5732-488e-903a-beaeb596cf71"
+            },
+            "spec": {
+                "podManagementPolicy": "OrderedReady",
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "com.cloudbees.cje.tenant": "cjoc",
+                        "com.cloudbees.cje.type": "cjoc"
+                    }
+                },
+                "serviceName": "cjoc",
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app.kubernetes.io/component": "cjoc",
+                            "app.kubernetes.io/instance": "cloudbees-core",
+                            "app.kubernetes.io/managed-by": "Helm",
+                            "app.kubernetes.io/name": "cloudbees-core",
+                            "com.cloudbees.cje.tenant": "cjoc",
+                            "com.cloudbees.cje.type": "cjoc",
+                            "helm.sh/chart": "cloudbees-core-3.16.1_a3fdb4ae4e87"
+                        },
+                        "name": "cjoc"
+                    },
+                    "spec": {
+                        "affinity": {
+                            "nodeAffinity": {
+                                "requiredDuringSchedulingIgnoredDuringExecution": {
+                                    "nodeSelectorTerms": [
+                                        {
+                                            "matchExpressions": [
+                                                {
+                                                    "key": "kubernetes.io/os",
+                                                    "operator": "In",
+                                                    "values": [
+                                                        "linux"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            "podAntiAffinity": {
+                                "preferredDuringSchedulingIgnoredDuringExecution": [
+                                    {
+                                        "podAffinityTerm": {
+                                            "labelSelector": {
+                                                "matchExpressions": [
+                                                    {
+                                                        "key": "com.cloudbees.cje.type",
+                                                        "operator": "In",
+                                                        "values": [
+                                                            "master"
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            "topologyKey": "kubernetes.io/hostname"
+                                        },
+                                        "weight": 1
+                                    },
+                                    {
+                                        "podAffinityTerm": {
+                                            "labelSelector": {
+                                                "matchExpressions": [
+                                                    {
+                                                        "key": "jenkins",
+                                                        "operator": "In",
+                                                        "values": [
+                                                            "slave"
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            "topologyKey": "kubernetes.io/hostname"
+                                        },
+                                        "weight": 1
+                                    }
+                                ]
+                            }
+                        },
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "MASTER_GLOBAL_JAVA_OPTIONS",
+                                        "value": "-Dorg.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateStepExecution.defaultImage=cloudbees/cloudbees-core-agent:2.235.2.3"
+                                    },
+                                    {
+                                        "name": "ENVIRONMENT",
+                                        "value": "KUBERNETES"
+                                    },
+                                    {
+                                        "name": "JENKINS_OPTS",
+                                        "value": "--httpPort=8080 --prefix=/cjoc"
+                                    },
+                                    {
+                                        "name": "JAVA_OPTS",
+                                        "value": "-XshowSettings:vm -Dhudson.DNSMultiCast.disabled=true -Dhudson.lifecycle=hudson.lifecycle.ExitLifecycle -Djenkins.model.Jenkins.slaveAgentPort=50000 -Djenkins.model.Jenkins.slaveAgentPortEnforce=true -Dcom.cloudbees.opscenter.analytics.reporter.JocAnalyticsReporter.PERIOD=120 -Dcom.cloudbees.opscenter.analytics.reporter.metrics.AperiodicMetricSubmitter.PERIOD=120 -Dcom.cloudbees.opscenter.analytics.FeederConfiguration.PERIOD=120 -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.fsGroup=1000 -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.disableAutoConfiguration=true -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.masterImageName=\"CloudBees Core - Managed Master - 2.235.2.3\" -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.masterImage=cloudbees/cloudbees-core-mm:2.235.2.3 -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.serviceAccount=jenkins -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.ingressClass=nginx"
+                                    }
+                                ],
+                                "image": "cloudbees/cloudbees-cloud-core-oc:2.235.2.3",
+                                "imagePullPolicy": "Always",
+                                "livenessProbe": {
+                                    "failureThreshold": 12,
+                                    "httpGet": {
+                                        "path": "/cjoc/login",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 300,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 5
+                                },
+                                "name": "jenkins",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "name": "http",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50000,
+                                        "name": "jnlp",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 100,
+                                    "httpGet": {
+                                        "path": "/cjoc/login",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 30,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 5
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "2G"
+                                    },
+                                    "requests": {
+                                        "cpu": "1",
+                                        "memory": "2G"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/jenkins_home",
+                                        "name": "jenkins-home"
+                                    },
+                                    {
+                                        "mountPath": "/var/jenkins_config/configure-jenkins.groovy.d",
+                                        "name": "jenkins-configure-jenkins-groovy",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {
+                            "fsGroup": 1000
+                        },
+                        "serviceAccount": "cjoc",
+                        "serviceAccountName": "cjoc",
+                        "terminationGracePeriodSeconds": 10,
+                        "volumes": [
+                            {
+                                "configMap": {
+                                    "defaultMode": 420,
+                                    "name": "cjoc-configure-jenkins-groovy"
+                                },
+                                "name": "jenkins-configure-jenkins-groovy"
+                            }
+                        ]
+                    }
+                },
+                "updateStrategy": {
+                    "type": "RollingUpdate"
+                },
+                "volumeClaimTemplates": [
+                    {
+                        "metadata": {
+                            "creationTimestamp": null,
+                            "labels": {
+                                "app": "cjoc",
+                                "heritage": "Helm",
+                                "release": "cloudbees-core"
+                            },
+                            "name": "jenkins-home"
+                        },
+                        "spec": {
+                            "accessModes": [
+                                "ReadWriteOnce"
+                            ],
+                            "resources": {
+                                "requests": {
+                                    "storage": "20Gi"
+                                }
+                            },
+                            "volumeMode": "Filesystem"
+                        },
+                        "status": {
+                            "phase": "Pending"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "collisionCount": 0,
+                "currentReplicas": 1,
+                "currentRevision": "cjoc-67bd65779b",
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updateRevision": "cjoc-67bd65779b",
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "StatefulSet",
+            "metadata": {
+                "creationTimestamp": "2020-08-10T14:44:32Z",
+                "generation": 1,
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-a",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-a",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-a",
+                    "type": "master"
+                },
+                "name": "master-a",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "100243942",
+                "selfLink": "/apis/apps/v1/namespaces/cloudbees-core/statefulsets/master-a",
+                "uid": "d864a850-9ac3-4f2b-9088-8a78110dc6ac"
+            },
+            "spec": {
+                "podManagementPolicy": "OrderedReady",
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "com.cloudbees.cje.tenant": "master-a",
+                        "com.cloudbees.cje.type": "master",
+                        "com.cloudbees.pse.tenant": "master-a",
+                        "com.cloudbees.pse.type": "master",
+                        "tenant": "master-a",
+                        "type": "master"
+                    }
+                },
+                "serviceName": "master-a",
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "com.cloudbees.cje.tenant": "master-a",
+                            "com.cloudbees.cje.type": "master",
+                            "com.cloudbees.pse.tenant": "master-a",
+                            "com.cloudbees.pse.type": "master",
+                            "tenant": "master-a",
+                            "type": "master"
+                        },
+                        "name": "master-a"
+                    },
+                    "spec": {
+                        "affinity": {
+                            "nodeAffinity": {
+                                "requiredDuringSchedulingIgnoredDuringExecution": {
+                                    "nodeSelectorTerms": [
+                                        {
+                                            "matchExpressions": [
+                                                {
+                                                    "key": "kubernetes.io/os",
+                                                    "operator": "In",
+                                                    "values": [
+                                                        "linux"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            "podAntiAffinity": {
+                                "preferredDuringSchedulingIgnoredDuringExecution": [
+                                    {
+                                        "podAffinityTerm": {
+                                            "labelSelector": {
+                                                "matchExpressions": [
+                                                    {
+                                                        "key": "com.cloudbees.cje.type",
+                                                        "operator": "In",
+                                                        "values": [
+                                                            "cjoc"
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            "topologyKey": "kubernetes.io/hostname"
+                                        },
+                                        "weight": 1
+                                    },
+                                    {
+                                        "podAffinityTerm": {
+                                            "labelSelector": {
+                                                "matchExpressions": [
+                                                    {
+                                                        "key": "jenkins",
+                                                        "operator": "In",
+                                                        "values": [
+                                                            "slave"
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            "topologyKey": "kubernetes.io/hostname"
+                                        },
+                                        "weight": 1
+                                    }
+                                ]
+                            }
+                        },
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "ENVIRONMENT",
+                                        "value": "KUBERNETES"
+                                    },
+                                    {
+                                        "name": "JAVA_OPTS",
+                                        "value": "-Xmx2150m -Xms2150m -Djenkins.model.Jenkins.slaveAgentPortEnforce=\"true\" -Djenkins.model.Jenkins.slaveAgentPort=\"50000\" -Dhudson.TcpSlaveAgentListener.port=\"50001\" -DMASTER_GRANT_ID=\"bbf79460-a848-42ed-a45c-ebb9a2166adb\" -DMASTER_DOMAIN=\"master-a\" -Dcb.IMProp.warProfiles.cje=\"kubernetes.json\" -DMASTER_INDEX=\"0\" -DMASTER_OPERATIONSCENTER_ENDPOINT=\"http://cjoc.cloudbees-core.svc.cluster.local/cjoc\" -Dhudson.lifecycle=\"hudson.lifecycle.ExitLifecycle\" -DMASTER_NAME=\"master-a\" -DMASTER_ENDPOINT=\"https://core-gke.pcherry.uk/master-a/\" -DMASTER_RESOURCE_URL= -XshowSettings:vm -XX:MaxRAMFraction=1 -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -Dhudson.slaves.NodeProvisioner.initialDelay=0 -Dhudson.DNSMultiCast.disabled=true -Dhudson.TcpSlaveAgentListener.hostName=master-a.cloudbees-core.svc.cluster.local -DsessionTimeout=0 -Dorg.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateStepExecution.defaultImage=cloudbees/cloudbees-core-agent:2.235.2.3"
+                                    },
+                                    {
+                                        "name": "JENKINS_OPTS",
+                                        "value": "--prefix=/master-a/"
+                                    },
+                                    {
+                                        "name": "KUBERNETES_JENKINS_URL",
+                                        "value": "http://master-a.cloudbees-core.svc.cluster.local/master-a/"
+                                    }
+                                ],
+                                "image": "pcherrydocker/cb-core-mm:2.235.2.3-phil",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/master-a/login",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 300,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 10
+                                },
+                                "name": "jenkins",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "name": "http",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50000,
+                                        "name": "jnlp",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 100,
+                                    "httpGet": {
+                                        "path": "/master-a/login",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 30,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 5
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "3072M"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/jenkins_home",
+                                        "name": "jenkins-home"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {
+                            "fsGroup": 1000
+                        },
+                        "serviceAccount": "jenkins",
+                        "serviceAccountName": "jenkins",
+                        "terminationGracePeriodSeconds": 1200
+                    }
+                },
+                "updateStrategy": {
+                    "rollingUpdate": {
+                        "partition": 0
+                    },
+                    "type": "RollingUpdate"
+                },
+                "volumeClaimTemplates": [
+                    {
+                        "metadata": {
+                            "creationTimestamp": null,
+                            "name": "jenkins-home"
+                        },
+                        "spec": {
+                            "accessModes": [
+                                "ReadWriteOnce"
+                            ],
+                            "resources": {
+                                "requests": {
+                                    "storage": "50Gi"
+                                }
+                            },
+                            "volumeMode": "Filesystem"
+                        },
+                        "status": {
+                            "phase": "Pending"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "collisionCount": 0,
+                "currentReplicas": 1,
+                "currentRevision": "master-a-5487567858",
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updateRevision": "master-a-5487567858",
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "StatefulSet",
+            "metadata": {
+                "creationTimestamp": "2020-08-10T14:39:44Z",
+                "generation": 1,
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-b",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-b",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-b",
+                    "type": "master"
+                },
+                "name": "master-b",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "100243791",
+                "selfLink": "/apis/apps/v1/namespaces/cloudbees-core/statefulsets/master-b",
+                "uid": "9a661942-d62a-4b23-8c33-e0330fd2aa39"
+            },
+            "spec": {
+                "podManagementPolicy": "OrderedReady",
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "com.cloudbees.cje.tenant": "master-b",
+                        "com.cloudbees.cje.type": "master",
+                        "com.cloudbees.pse.tenant": "master-b",
+                        "com.cloudbees.pse.type": "master",
+                        "tenant": "master-b",
+                        "type": "master"
+                    }
+                },
+                "serviceName": "master-b",
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "com.cloudbees.cje.tenant": "master-b",
+                            "com.cloudbees.cje.type": "master",
+                            "com.cloudbees.pse.tenant": "master-b",
+                            "com.cloudbees.pse.type": "master",
+                            "tenant": "master-b",
+                            "type": "master"
+                        },
+                        "name": "master-b"
+                    },
+                    "spec": {
+                        "affinity": {
+                            "nodeAffinity": {
+                                "requiredDuringSchedulingIgnoredDuringExecution": {
+                                    "nodeSelectorTerms": [
+                                        {
+                                            "matchExpressions": [
+                                                {
+                                                    "key": "kubernetes.io/os",
+                                                    "operator": "In",
+                                                    "values": [
+                                                        "linux"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            "podAntiAffinity": {
+                                "preferredDuringSchedulingIgnoredDuringExecution": [
+                                    {
+                                        "podAffinityTerm": {
+                                            "labelSelector": {
+                                                "matchExpressions": [
+                                                    {
+                                                        "key": "com.cloudbees.cje.type",
+                                                        "operator": "In",
+                                                        "values": [
+                                                            "cjoc"
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            "topologyKey": "kubernetes.io/hostname"
+                                        },
+                                        "weight": 1
+                                    },
+                                    {
+                                        "podAffinityTerm": {
+                                            "labelSelector": {
+                                                "matchExpressions": [
+                                                    {
+                                                        "key": "jenkins",
+                                                        "operator": "In",
+                                                        "values": [
+                                                            "slave"
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            "topologyKey": "kubernetes.io/hostname"
+                                        },
+                                        "weight": 1
+                                    }
+                                ]
+                            }
+                        },
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "ENVIRONMENT",
+                                        "value": "KUBERNETES"
+                                    },
+                                    {
+                                        "name": "JAVA_OPTS",
+                                        "value": "-Xmx2150m -Xms2150m -Djenkins.model.Jenkins.slaveAgentPortEnforce=\"true\" -Djenkins.model.Jenkins.slaveAgentPort=\"50000\" -Dhudson.TcpSlaveAgentListener.port=\"50002\" -DMASTER_GRANT_ID=\"c4d35063-18d2-4d2e-a201-5baba85ebd1c\" -DMASTER_DOMAIN=\"master-b\" -Dcb.IMProp.warProfiles.cje=\"kubernetes.json\" -DMASTER_INDEX=\"1\" -DMASTER_OPERATIONSCENTER_ENDPOINT=\"http://cjoc.cloudbees-core.svc.cluster.local/cjoc\" -Dhudson.lifecycle=\"hudson.lifecycle.ExitLifecycle\" -DMASTER_NAME=\"master-b\" -DMASTER_ENDPOINT=\"https://core-gke.pcherry.uk/master-b/\" -DMASTER_RESOURCE_URL= -XshowSettings:vm -XX:MaxRAMFraction=1 -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -Dhudson.slaves.NodeProvisioner.initialDelay=0 -Dhudson.DNSMultiCast.disabled=true -Dhudson.TcpSlaveAgentListener.hostName=master-b.cloudbees-core.svc.cluster.local -DsessionTimeout=0 -Dorg.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateStepExecution.defaultImage=cloudbees/cloudbees-core-agent:2.235.2.3"
+                                    },
+                                    {
+                                        "name": "JENKINS_OPTS",
+                                        "value": "--prefix=/master-b/"
+                                    },
+                                    {
+                                        "name": "KUBERNETES_JENKINS_URL",
+                                        "value": "http://master-b.cloudbees-core.svc.cluster.local/master-b/"
+                                    }
+                                ],
+                                "image": "pcherrydocker/cb-core-mm:2.235.2.3-phil",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/master-b/login",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 300,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 10
+                                },
+                                "name": "jenkins",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "name": "http",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 50000,
+                                        "name": "jnlp",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 100,
+                                    "httpGet": {
+                                        "path": "/master-b/login",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 30,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 5
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "3072M"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/jenkins_home",
+                                        "name": "jenkins-home"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {
+                            "fsGroup": 1000
+                        },
+                        "serviceAccount": "jenkins",
+                        "serviceAccountName": "jenkins",
+                        "terminationGracePeriodSeconds": 1200
+                    }
+                },
+                "updateStrategy": {
+                    "rollingUpdate": {
+                        "partition": 0
+                    },
+                    "type": "RollingUpdate"
+                },
+                "volumeClaimTemplates": [
+                    {
+                        "metadata": {
+                            "creationTimestamp": null,
+                            "name": "jenkins-home"
+                        },
+                        "spec": {
+                            "accessModes": [
+                                "ReadWriteOnce"
+                            ],
+                            "resources": {
+                                "requests": {
+                                    "storage": "20Gi"
+                                }
+                            },
+                            "volumeMode": "Filesystem"
+                        },
+                        "status": {
+                            "phase": "Pending"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "collisionCount": 0,
+                "currentReplicas": 1,
+                "currentRevision": "master-b-c86f6779d",
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updateRevision": "master-b-c86f6779d",
+                "updatedReplicas": 1
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

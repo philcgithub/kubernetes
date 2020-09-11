@@ -1,0 +1,156 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "volume.beta.kubernetes.io/storage-provisioner": "kubernetes.io/gce-pd"
+                },
+                "creationTimestamp": "2019-10-08T13:04:36Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "com.cloudbees.cje.tenant": "cjoc",
+                    "com.cloudbees.cje.type": "cjoc"
+                },
+                "name": "jenkins-home-cjoc-0",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "4991",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/persistentvolumeclaims/jenkins-home-cjoc-0",
+                "uid": "2df3e30a-e9cc-11e9-aeed-42010a8401a5"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "20Gi"
+                    }
+                },
+                "storageClassName": "standard",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-2df3e30a-e9cc-11e9-aeed-42010a8401a5"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "20Gi"
+                },
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "volume.beta.kubernetes.io/storage-provisioner": "kubernetes.io/gce-pd"
+                },
+                "creationTimestamp": "2019-10-08T13:39:38Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-a",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-a",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-a",
+                    "type": "master"
+                },
+                "name": "jenkins-home-master-a-0",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "12562",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/persistentvolumeclaims/jenkins-home-master-a-0",
+                "uid": "12e28023-e9d1-11e9-aeed-42010a8401a5"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "50Gi"
+                    }
+                },
+                "storageClassName": "standard",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-12e28023-e9d1-11e9-aeed-42010a8401a5"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "50Gi"
+                },
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "volume.beta.kubernetes.io/storage-provisioner": "kubernetes.io/gce-pd"
+                },
+                "creationTimestamp": "2019-11-21T13:58:55Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-b",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-b",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-b",
+                    "type": "master"
+                },
+                "name": "jenkins-home-master-b-0",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "11746393",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/persistentvolumeclaims/jenkins-home-master-b-0",
+                "uid": "0e6b1978-0c67-11ea-be20-42010a8401d9"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "20Gi"
+                    }
+                },
+                "storageClassName": "standard",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-0e6b1978-0c67-11ea-be20-42010a8401d9"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "20Gi"
+                },
+                "phase": "Bound"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

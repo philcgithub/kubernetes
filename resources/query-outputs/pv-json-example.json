@@ -1,0 +1,229 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolume",
+            "metadata": {
+                "annotations": {
+                    "kubernetes.io/createdby": "gce-pd-dynamic-provisioner",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "pv.kubernetes.io/provisioned-by": "kubernetes.io/gce-pd"
+                },
+                "creationTimestamp": "2019-11-21T13:58:58Z",
+                "finalizers": [
+                    "kubernetes.io/pv-protection"
+                ],
+                "labels": {
+                    "failure-domain.beta.kubernetes.io/region": "europe-west1",
+                    "failure-domain.beta.kubernetes.io/zone": "europe-west1-b"
+                },
+                "name": "pvc-0e6b1978-0c67-11ea-be20-42010a8401d9",
+                "resourceVersion": "89915355",
+                "selfLink": "/api/v1/persistentvolumes/pvc-0e6b1978-0c67-11ea-be20-42010a8401d9",
+                "uid": "10594a7d-0c67-11ea-be20-42010a8401d9"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "20Gi"
+                },
+                "claimRef": {
+                    "apiVersion": "v1",
+                    "kind": "PersistentVolumeClaim",
+                    "name": "jenkins-home-master-b-0",
+                    "namespace": "cloudbees-core",
+                    "resourceVersion": "11746372",
+                    "uid": "0e6b1978-0c67-11ea-be20-42010a8401d9"
+                },
+                "gcePersistentDisk": {
+                    "fsType": "ext4",
+                    "pdName": "gke-cb-core-1-61c7c06e-pvc-0e6b1978-0c67-11ea-be20-42010a8401d9"
+                },
+                "nodeAffinity": {
+                    "required": {
+                        "nodeSelectorTerms": [
+                            {
+                                "matchExpressions": [
+                                    {
+                                        "key": "failure-domain.beta.kubernetes.io/region",
+                                        "operator": "In",
+                                        "values": [
+                                            "europe-west1"
+                                        ]
+                                    },
+                                    {
+                                        "key": "failure-domain.beta.kubernetes.io/zone",
+                                        "operator": "In",
+                                        "values": [
+                                            "europe-west1-b"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "persistentVolumeReclaimPolicy": "Retain",
+                "storageClassName": "standard",
+                "volumeMode": "Filesystem"
+            },
+            "status": {
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolume",
+            "metadata": {
+                "annotations": {
+                    "kubernetes.io/createdby": "gce-pd-dynamic-provisioner",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "pv.kubernetes.io/provisioned-by": "kubernetes.io/gce-pd"
+                },
+                "creationTimestamp": "2019-10-08T13:39:41Z",
+                "finalizers": [
+                    "kubernetes.io/pv-protection"
+                ],
+                "labels": {
+                    "failure-domain.beta.kubernetes.io/region": "europe-west1",
+                    "failure-domain.beta.kubernetes.io/zone": "europe-west1-b"
+                },
+                "name": "pvc-12e28023-e9d1-11e9-aeed-42010a8401a5",
+                "resourceVersion": "89915250",
+                "selfLink": "/api/v1/persistentvolumes/pvc-12e28023-e9d1-11e9-aeed-42010a8401a5",
+                "uid": "14affa67-e9d1-11e9-aeed-42010a8401a5"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "50Gi"
+                },
+                "claimRef": {
+                    "apiVersion": "v1",
+                    "kind": "PersistentVolumeClaim",
+                    "name": "jenkins-home-master-a-0",
+                    "namespace": "cloudbees-core",
+                    "resourceVersion": "12543",
+                    "uid": "12e28023-e9d1-11e9-aeed-42010a8401a5"
+                },
+                "gcePersistentDisk": {
+                    "fsType": "ext4",
+                    "pdName": "gke-cb-core-1-61c7c06e-pvc-12e28023-e9d1-11e9-aeed-42010a8401a5"
+                },
+                "nodeAffinity": {
+                    "required": {
+                        "nodeSelectorTerms": [
+                            {
+                                "matchExpressions": [
+                                    {
+                                        "key": "failure-domain.beta.kubernetes.io/zone",
+                                        "operator": "In",
+                                        "values": [
+                                            "europe-west1-b"
+                                        ]
+                                    },
+                                    {
+                                        "key": "failure-domain.beta.kubernetes.io/region",
+                                        "operator": "In",
+                                        "values": [
+                                            "europe-west1"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "persistentVolumeReclaimPolicy": "Retain",
+                "storageClassName": "standard",
+                "volumeMode": "Filesystem"
+            },
+            "status": {
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolume",
+            "metadata": {
+                "annotations": {
+                    "kubernetes.io/createdby": "gce-pd-dynamic-provisioner",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "pv.kubernetes.io/provisioned-by": "kubernetes.io/gce-pd"
+                },
+                "creationTimestamp": "2019-10-08T13:04:39Z",
+                "finalizers": [
+                    "kubernetes.io/pv-protection"
+                ],
+                "labels": {
+                    "failure-domain.beta.kubernetes.io/region": "europe-west1",
+                    "failure-domain.beta.kubernetes.io/zone": "europe-west1-b"
+                },
+                "name": "pvc-2df3e30a-e9cc-11e9-aeed-42010a8401a5",
+                "resourceVersion": "89915095",
+                "selfLink": "/api/v1/persistentvolumes/pvc-2df3e30a-e9cc-11e9-aeed-42010a8401a5",
+                "uid": "2fd6122e-e9cc-11e9-aeed-42010a8401a5"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "20Gi"
+                },
+                "claimRef": {
+                    "apiVersion": "v1",
+                    "kind": "PersistentVolumeClaim",
+                    "name": "jenkins-home-cjoc-0",
+                    "namespace": "cloudbees-core",
+                    "resourceVersion": "4973",
+                    "uid": "2df3e30a-e9cc-11e9-aeed-42010a8401a5"
+                },
+                "gcePersistentDisk": {
+                    "fsType": "ext4",
+                    "pdName": "gke-cb-core-1-61c7c06e-pvc-2df3e30a-e9cc-11e9-aeed-42010a8401a5"
+                },
+                "nodeAffinity": {
+                    "required": {
+                        "nodeSelectorTerms": [
+                            {
+                                "matchExpressions": [
+                                    {
+                                        "key": "failure-domain.beta.kubernetes.io/zone",
+                                        "operator": "In",
+                                        "values": [
+                                            "europe-west1-b"
+                                        ]
+                                    },
+                                    {
+                                        "key": "failure-domain.beta.kubernetes.io/region",
+                                        "operator": "In",
+                                        "values": [
+                                            "europe-west1"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "persistentVolumeReclaimPolicy": "Retain",
+                "storageClassName": "standard",
+                "volumeMode": "Filesystem"
+            },
+            "status": {
+                "phase": "Bound"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

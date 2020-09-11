@@ -1,0 +1,367 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "meta.helm.sh/release-name": "cloudbees-core",
+                    "meta.helm.sh/release-namespace": "cloudbees-core"
+                },
+                "creationTimestamp": "2020-08-10T11:29:17Z",
+                "labels": {
+                    "app.kubernetes.io/component": "cjoc",
+                    "app.kubernetes.io/instance": "cloudbees-core",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "cloudbees-core",
+                    "helm.sh/chart": "cloudbees-core-3.16.1_a3fdb4ae4e87"
+                },
+                "name": "cjoc",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "89923901",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/services/cjoc",
+                "uid": "39cd0932-867b-4183-bb61-6cd8042e3418"
+            },
+            "spec": {
+                "clusterIP": "10.102.15.148",
+                "ports": [
+                    {
+                        "name": "http",
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": 8080
+                    },
+                    {
+                        "name": "jnlp",
+                        "port": 50000,
+                        "protocol": "TCP",
+                        "targetPort": 50000
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/component": "cjoc",
+                    "com.cloudbees.cje.tenant": "cjoc"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "meta.helm.sh/release-name": "cloudbees-core",
+                    "meta.helm.sh/release-namespace": "cloudbees-core"
+                },
+                "creationTimestamp": "2020-08-10T11:29:17Z",
+                "finalizers": [
+                    "service.kubernetes.io/load-balancer-cleanup"
+                ],
+                "labels": {
+                    "app": "nginx-ingress",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "chart": "nginx-ingress-1.31.0",
+                    "component": "controller",
+                    "heritage": "Helm",
+                    "release": "cloudbees-core"
+                },
+                "name": "cloudbees-core-nginx-ingress-controller",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "89924205",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/services/cloudbees-core-nginx-ingress-controller",
+                "uid": "c236b9a1-34f9-41f1-a21c-400589663bd6"
+            },
+            "spec": {
+                "clusterIP": "10.102.2.57",
+                "externalTrafficPolicy": "Local",
+                "healthCheckNodePort": 32119,
+                "ports": [
+                    {
+                        "name": "http",
+                        "nodePort": 32375,
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": "http"
+                    },
+                    {
+                        "name": "https",
+                        "nodePort": 31303,
+                        "port": 443,
+                        "protocol": "TCP",
+                        "targetPort": "https"
+                    },
+                    {
+                        "name": "50000-tcp",
+                        "nodePort": 30469,
+                        "port": 50000,
+                        "protocol": "TCP",
+                        "targetPort": "50000-tcp"
+                    }
+                ],
+                "selector": {
+                    "app": "nginx-ingress",
+                    "component": "controller",
+                    "release": "cloudbees-core"
+                },
+                "sessionAffinity": "None",
+                "type": "LoadBalancer"
+            },
+            "status": {
+                "loadBalancer": {
+                    "ingress": [
+                        {
+                            "ip": "34.77.250.141"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "meta.helm.sh/release-name": "cloudbees-core",
+                    "meta.helm.sh/release-namespace": "cloudbees-core"
+                },
+                "creationTimestamp": "2020-08-10T11:29:17Z",
+                "labels": {
+                    "app": "nginx-ingress",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "chart": "nginx-ingress-1.31.0",
+                    "component": "default-backend",
+                    "heritage": "Helm",
+                    "release": "cloudbees-core"
+                },
+                "name": "cloudbees-core-nginx-ingress-default-backend",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "89923899",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/services/cloudbees-core-nginx-ingress-default-backend",
+                "uid": "f816826c-3e8b-48ab-bc50-01c75ba35cbe"
+            },
+            "spec": {
+                "clusterIP": "10.102.15.246",
+                "ports": [
+                    {
+                        "name": "http",
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": "http"
+                    }
+                ],
+                "selector": {
+                    "app": "nginx-ingress",
+                    "component": "default-backend",
+                    "release": "cloudbees-core"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2020-08-10T14:44:32Z",
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-a",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-a",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-a",
+                    "type": "master"
+                },
+                "name": "master-a",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "89990506",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/services/master-a",
+                "uid": "a380218c-0a80-4a8e-8c82-ea5a99afe492"
+            },
+            "spec": {
+                "clusterIP": "10.102.11.208",
+                "ports": [
+                    {
+                        "name": "http",
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": 8080
+                    },
+                    {
+                        "name": "agent",
+                        "port": 50001,
+                        "protocol": "TCP",
+                        "targetPort": 50000
+                    }
+                ],
+                "selector": {
+                    "com.cloudbees.cje.tenant": "master-a",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-a",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-a",
+                    "type": "master"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2020-08-10T14:44:32Z",
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-a",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-a",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-a",
+                    "type": "master"
+                },
+                "name": "master-a-jnlp",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "89990517",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/services/master-a-jnlp",
+                "uid": "7b553594-2d21-4523-bfa7-fcece092b361"
+            },
+            "spec": {
+                "clusterIP": "10.102.4.2",
+                "externalTrafficPolicy": "Cluster",
+                "ports": [
+                    {
+                        "name": "agent",
+                        "nodePort": 30665,
+                        "port": 50001,
+                        "protocol": "TCP",
+                        "targetPort": 50000
+                    }
+                ],
+                "selector": {
+                    "com.cloudbees.cje.tenant": "master-a",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-a",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-a",
+                    "type": "master"
+                },
+                "sessionAffinity": "None",
+                "type": "NodePort"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2020-08-10T14:39:44Z",
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-b",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-b",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-b",
+                    "type": "master"
+                },
+                "name": "master-b",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "89988849",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/services/master-b",
+                "uid": "a2e6e142-d39d-44ea-8117-8e9e1aac59f4"
+            },
+            "spec": {
+                "clusterIP": "10.102.6.78",
+                "ports": [
+                    {
+                        "name": "http",
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": 8080
+                    },
+                    {
+                        "name": "agent",
+                        "port": 50002,
+                        "protocol": "TCP",
+                        "targetPort": 50000
+                    }
+                ],
+                "selector": {
+                    "com.cloudbees.cje.tenant": "master-b",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-b",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-b",
+                    "type": "master"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2019-12-11T16:50:18Z",
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-b",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-b",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-b",
+                    "type": "master"
+                },
+                "name": "master-b-jnlp",
+                "namespace": "cloudbees-core",
+                "resourceVersion": "17225714",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/services/master-b-jnlp",
+                "uid": "50103ee8-1c36-11ea-be20-42010a8401d9"
+            },
+            "spec": {
+                "clusterIP": "10.102.14.213",
+                "externalTrafficPolicy": "Cluster",
+                "ports": [
+                    {
+                        "name": "agent",
+                        "nodePort": 31064,
+                        "port": 50002,
+                        "protocol": "TCP",
+                        "targetPort": 50002
+                    }
+                ],
+                "selector": {
+                    "com.cloudbees.cje.tenant": "master-b",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-b",
+                    "com.cloudbees.pse.type": "master",
+                    "tenant": "master-b",
+                    "type": "master"
+                },
+                "sessionAffinity": "None",
+                "type": "NodePort"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

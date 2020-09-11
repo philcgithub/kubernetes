@@ -1,0 +1,1428 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2020-08-10T15:06:34Z",
+                "generateName": "cjoc-",
+                "labels": {
+                    "app.kubernetes.io/component": "cjoc",
+                    "app.kubernetes.io/instance": "cloudbees-core",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "cloudbees-core",
+                    "com.cloudbees.cje.tenant": "cjoc",
+                    "com.cloudbees.cje.type": "cjoc",
+                    "controller-revision-hash": "cjoc-67bd65779b",
+                    "helm.sh/chart": "cloudbees-core-3.16.1_a3fdb4ae4e87",
+                    "statefulset.kubernetes.io/pod-name": "cjoc-0"
+                },
+                "name": "cjoc-0",
+                "namespace": "cloudbees-core",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "cjoc",
+                        "uid": "2da70f5d-5732-488e-903a-beaeb596cf71"
+                    }
+                ],
+                "resourceVersion": "100242925",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/pods/cjoc-0",
+                "uid": "2a8e3117-13ba-4eff-b0a3-0a8bdf92ef8f"
+            },
+            "spec": {
+                "affinity": {
+                    "nodeAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": {
+                            "nodeSelectorTerms": [
+                                {
+                                    "matchExpressions": [
+                                        {
+                                            "key": "kubernetes.io/os",
+                                            "operator": "In",
+                                            "values": [
+                                                "linux"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "podAntiAffinity": {
+                        "preferredDuringSchedulingIgnoredDuringExecution": [
+                            {
+                                "podAffinityTerm": {
+                                    "labelSelector": {
+                                        "matchExpressions": [
+                                            {
+                                                "key": "com.cloudbees.cje.type",
+                                                "operator": "In",
+                                                "values": [
+                                                    "master"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "topologyKey": "kubernetes.io/hostname"
+                                },
+                                "weight": 1
+                            },
+                            {
+                                "podAffinityTerm": {
+                                    "labelSelector": {
+                                        "matchExpressions": [
+                                            {
+                                                "key": "jenkins",
+                                                "operator": "In",
+                                                "values": [
+                                                    "slave"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "topologyKey": "kubernetes.io/hostname"
+                                },
+                                "weight": 1
+                            }
+                        ]
+                    }
+                },
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "MASTER_GLOBAL_JAVA_OPTIONS",
+                                "value": "-Dorg.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateStepExecution.defaultImage=cloudbees/cloudbees-core-agent:2.235.2.3"
+                            },
+                            {
+                                "name": "ENVIRONMENT",
+                                "value": "KUBERNETES"
+                            },
+                            {
+                                "name": "JENKINS_OPTS",
+                                "value": "--httpPort=8080 --prefix=/cjoc"
+                            },
+                            {
+                                "name": "JAVA_OPTS",
+                                "value": "-XshowSettings:vm -Dhudson.DNSMultiCast.disabled=true -Dhudson.lifecycle=hudson.lifecycle.ExitLifecycle -Djenkins.model.Jenkins.slaveAgentPort=50000 -Djenkins.model.Jenkins.slaveAgentPortEnforce=true -Dcom.cloudbees.opscenter.analytics.reporter.JocAnalyticsReporter.PERIOD=120 -Dcom.cloudbees.opscenter.analytics.reporter.metrics.AperiodicMetricSubmitter.PERIOD=120 -Dcom.cloudbees.opscenter.analytics.FeederConfiguration.PERIOD=120 -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.fsGroup=1000 -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.disableAutoConfiguration=true -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.masterImageName=\"CloudBees Core - Managed Master - 2.235.2.3\" -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.masterImage=cloudbees/cloudbees-core-mm:2.235.2.3 -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.serviceAccount=jenkins -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.ingressClass=nginx"
+                            }
+                        ],
+                        "image": "cloudbees/cloudbees-cloud-core-oc:2.235.2.3",
+                        "imagePullPolicy": "Always",
+                        "livenessProbe": {
+                            "failureThreshold": 12,
+                            "httpGet": {
+                                "path": "/cjoc/login",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 300,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 5
+                        },
+                        "name": "jenkins",
+                        "ports": [
+                            {
+                                "containerPort": 8080,
+                                "name": "http",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 50000,
+                                "name": "jnlp",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 100,
+                            "httpGet": {
+                                "path": "/cjoc/login",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 30,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 5
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "1",
+                                "memory": "2G"
+                            },
+                            "requests": {
+                                "cpu": "1",
+                                "memory": "2G"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/jenkins_home",
+                                "name": "jenkins-home"
+                            },
+                            {
+                                "mountPath": "/var/jenkins_config/configure-jenkins.groovy.d",
+                                "name": "jenkins-configure-jenkins-groovy",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "cjoc-token-lxvxl",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "hostname": "cjoc-0",
+                "nodeName": "gke-cb-core-1-default-pool-4f7ac708-t9zv",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 1000
+                },
+                "serviceAccount": "cjoc",
+                "serviceAccountName": "cjoc",
+                "subdomain": "cjoc",
+                "terminationGracePeriodSeconds": 10,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "jenkins-home",
+                        "persistentVolumeClaim": {
+                            "claimName": "jenkins-home-cjoc-0"
+                        }
+                    },
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "cjoc-configure-jenkins-groovy"
+                        },
+                        "name": "jenkins-configure-jenkins-groovy"
+                    },
+                    {
+                        "name": "cjoc-token-lxvxl",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "cjoc-token-lxvxl"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:54Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:54Z",
+                        "message": "containers with unready status: [jenkins]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:54Z",
+                        "message": "containers with unready status: [jenkins]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:54Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://2ca78b21bf9a2c34140e418b7a135a7f42c07c7d9df68918222f8ce810d9d3b2",
+                        "image": "cloudbees/cloudbees-cloud-core-oc:2.235.2.3",
+                        "imageID": "docker-pullable://cloudbees/cloudbees-cloud-core-oc@sha256:045c68303799e4b3375c37283f529fb5427d6a9e1eb63151beabd28696c0dc89",
+                        "lastState": {},
+                        "name": "jenkins",
+                        "ready": false,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2020-09-10T12:29:16Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.132.0.49",
+                "phase": "Running",
+                "podIP": "10.36.0.9",
+                "podIPs": [
+                    {
+                        "ip": "10.36.0.9"
+                    }
+                ],
+                "qosClass": "Guaranteed",
+                "startTime": "2020-09-10T12:27:54Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2020-08-10T15:06:29Z",
+                "generateName": "cloudbees-core-nginx-ingress-controller-5869c45f8b-",
+                "labels": {
+                    "app": "nginx-ingress",
+                    "component": "controller",
+                    "pod-template-hash": "5869c45f8b",
+                    "release": "cloudbees-core"
+                },
+                "name": "cloudbees-core-nginx-ingress-controller-5869c45f8b-pzh7h",
+                "namespace": "cloudbees-core",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "cloudbees-core-nginx-ingress-controller-5869c45f8b",
+                        "uid": "f85bfca0-07bb-45ee-a32f-02a0846da6f1"
+                    }
+                ],
+                "resourceVersion": "100242697",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/pods/cloudbees-core-nginx-ingress-controller-5869c45f8b-pzh7h",
+                "uid": "dbfd7418-1297-42cd-997e-e6e62401fc5b"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/nginx-ingress-controller",
+                            "--default-backend-service=cloudbees-core/cloudbees-core-nginx-ingress-default-backend",
+                            "--election-id=ingress-controller-leader",
+                            "--ingress-class=nginx",
+                            "--configmap=cloudbees-core/cloudbees-core-nginx-ingress-controller",
+                            "--tcp-services-configmap=cloudbees-core/cloudbees-core-nginx-ingress-tcp"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAME",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "metadata.name"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "POD_NAMESPACE",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "metadata.namespace"
+                                    }
+                                }
+                            }
+                        ],
+                        "image": "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.29.0",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/healthz",
+                                "port": 10254,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 10,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "nginx-ingress-controller",
+                        "ports": [
+                            {
+                                "containerPort": 80,
+                                "name": "http",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 443,
+                                "name": "https",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 50000,
+                                "name": "50000-tcp",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/healthz",
+                                "port": 10254,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 10,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "resources": {},
+                        "securityContext": {
+                            "allowPrivilegeEscalation": true,
+                            "capabilities": {
+                                "add": [
+                                    "NET_BIND_SERVICE"
+                                ],
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "runAsUser": 101
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "cloudbees-core-nginx-ingress-token-fnxgq",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "nodeName": "gke-cb-core-1-default-pool-4f7ac708-t9zv",
+                "nodeSelector": {
+                    "beta.kubernetes.io/os": "linux"
+                },
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "cloudbees-core-nginx-ingress",
+                "serviceAccountName": "cloudbees-core-nginx-ingress",
+                "terminationGracePeriodSeconds": 60,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "cloudbees-core-nginx-ingress-token-fnxgq",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "cloudbees-core-nginx-ingress-token-fnxgq"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:28:38Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:28:38Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://186b992b1d014bf098b1440edc6b34076f16e6138e127680613251569f6a7aa2",
+                        "image": "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.29.0",
+                        "imageID": "docker-pullable://quay.io/kubernetes-ingress-controller/nginx-ingress-controller@sha256:603a8f4d4c88e83c58d07d20de03a15ed1892bf261d699b3f85ffd892b01bba0",
+                        "lastState": {},
+                        "name": "nginx-ingress-controller",
+                        "ready": true,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2020-09-10T12:28:27Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.132.0.49",
+                "phase": "Running",
+                "podIP": "10.36.0.7",
+                "podIPs": [
+                    {
+                        "ip": "10.36.0.7"
+                    }
+                ],
+                "qosClass": "BestEffort",
+                "startTime": "2020-09-10T12:27:53Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2020-08-10T15:06:29Z",
+                "generateName": "cloudbees-core-nginx-ingress-default-backend-795fc6fddd-",
+                "labels": {
+                    "app": "nginx-ingress",
+                    "component": "default-backend",
+                    "pod-template-hash": "795fc6fddd",
+                    "release": "cloudbees-core"
+                },
+                "name": "cloudbees-core-nginx-ingress-default-backend-795fc6fddd-jr4d5",
+                "namespace": "cloudbees-core",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "cloudbees-core-nginx-ingress-default-backend-795fc6fddd",
+                        "uid": "3bf031be-3efa-43d2-b3a0-60261c16908e"
+                    }
+                ],
+                "resourceVersion": "100242544",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/pods/cloudbees-core-nginx-ingress-default-backend-795fc6fddd-jr4d5",
+                "uid": "dcd0ccce-da38-455f-97ea-96b6d3804771"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "image": "k8s.gcr.io/defaultbackend-amd64:1.5",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/healthz",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 30,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 5
+                        },
+                        "name": "nginx-ingress-default-backend",
+                        "ports": [
+                            {
+                                "containerPort": 8080,
+                                "name": "http",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 6,
+                            "httpGet": {
+                                "path": "/healthz",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 5,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 5
+                        },
+                        "resources": {},
+                        "securityContext": {
+                            "runAsUser": 65534
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "cloudbees-core-nginx-ingress-backend-token-4ks8r",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "nodeName": "gke-cb-core-1-default-pool-4f7ac708-gxp9",
+                "nodeSelector": {
+                    "beta.kubernetes.io/os": "linux"
+                },
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "cloudbees-core-nginx-ingress-backend",
+                "serviceAccountName": "cloudbees-core-nginx-ingress-backend",
+                "terminationGracePeriodSeconds": 60,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "cloudbees-core-nginx-ingress-backend-token-4ks8r",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "cloudbees-core-nginx-ingress-backend-token-4ks8r"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:54Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:28:12Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:28:12Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:54Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://c7fd36306cfad9839b89fe42781152a274b2153a25dbc1d1bcdcc643aa5aafc4",
+                        "image": "k8s.gcr.io/defaultbackend-amd64:1.5",
+                        "imageID": "docker-pullable://k8s.gcr.io/defaultbackend-amd64@sha256:4dc5e07c8ca4e23bddb3153737d7b8c556e5fb2f29c4558b7cd6e6df99c512c7",
+                        "lastState": {},
+                        "name": "nginx-ingress-default-backend",
+                        "ready": true,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2020-09-10T12:28:08Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.132.0.52",
+                "phase": "Running",
+                "podIP": "10.36.3.4",
+                "podIPs": [
+                    {
+                        "ip": "10.36.3.4"
+                    }
+                ],
+                "qosClass": "BestEffort",
+                "startTime": "2020-09-10T12:27:54Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2020-08-10T15:06:29Z",
+                "generateName": "macosagent-",
+                "labels": {
+                    "name": "macosagent"
+                },
+                "name": "macosagent-gdkdv",
+                "namespace": "cloudbees-core",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "macosagent",
+                        "uid": "ff8e2fed-f418-11e9-b13d-42010a840016"
+                    }
+                ],
+                "resourceVersion": "100243372",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/pods/macosagent-gdkdv",
+                "uid": "6575cd9c-d7b1-4742-b63a-b48270a70023"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "JENKINS_URL",
+                                "value": "http://cjoc.cloudbees-core.svc.cluster.local/cjoc"
+                            },
+                            {
+                                "name": "JENKINS_AGENT_NAME",
+                                "value": "MacOSAgent"
+                            },
+                            {
+                                "name": "JENKINS_SECRET",
+                                "value": "e7d8a436450bdd6bc6e12a6a974983033c5ddd56383e1ceea946ee5c3af88701"
+                            }
+                        ],
+                        "image": "jenkinsci/jnlp-slave",
+                        "imagePullPolicy": "Always",
+                        "livenessProbe": {
+                            "exec": {
+                                "command": [
+                                    "uname",
+                                    "-a"
+                                ]
+                            },
+                            "failureThreshold": 3,
+                            "initialDelaySeconds": 60,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "name": "jnlp-slave",
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-259fv",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "nodeName": "gke-cb-core-1-default-pool-4f7ac708-t9zv",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "default-token-259fv",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "default-token-259fv"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:30:08Z",
+                        "message": "containers with unready status: [jnlp-slave]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:30:08Z",
+                        "message": "containers with unready status: [jnlp-slave]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://bfd54a6a96bc5fe7f365f11acae85a82976ac45fcebeaed8130a471d6e68d26f",
+                        "image": "jenkinsci/jnlp-slave:latest",
+                        "imageID": "docker-pullable://jenkinsci/jnlp-slave@sha256:77983608c6f9715aa22c20f515054fe56178522f21be82d3aa972ac0e9564518",
+                        "lastState": {
+                            "terminated": {
+                                "containerID": "docker://bfd54a6a96bc5fe7f365f11acae85a82976ac45fcebeaed8130a471d6e68d26f",
+                                "exitCode": 255,
+                                "finishedAt": "2020-09-10T12:30:07Z",
+                                "reason": "Error",
+                                "startedAt": "2020-09-10T12:30:05Z"
+                            }
+                        },
+                        "name": "jnlp-slave",
+                        "ready": false,
+                        "restartCount": 3,
+                        "started": false,
+                        "state": {
+                            "waiting": {
+                                "message": "back-off 40s restarting failed container=jnlp-slave pod=macosagent-gdkdv_cloudbees-core(6575cd9c-d7b1-4742-b63a-b48270a70023)",
+                                "reason": "CrashLoopBackOff"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.132.0.49",
+                "phase": "Running",
+                "podIP": "10.36.0.4",
+                "podIPs": [
+                    {
+                        "ip": "10.36.0.4"
+                    }
+                ],
+                "qosClass": "BestEffort",
+                "startTime": "2020-09-10T12:27:53Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
+                },
+                "creationTimestamp": "2020-08-10T15:06:35Z",
+                "generateName": "master-a-",
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-a",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-a",
+                    "com.cloudbees.pse.type": "master",
+                    "controller-revision-hash": "master-a-5487567858",
+                    "statefulset.kubernetes.io/pod-name": "master-a-0",
+                    "tenant": "master-a",
+                    "type": "master"
+                },
+                "name": "master-a-0",
+                "namespace": "cloudbees-core",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "master-a",
+                        "uid": "d864a850-9ac3-4f2b-9088-8a78110dc6ac"
+                    }
+                ],
+                "resourceVersion": "100242757",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/pods/master-a-0",
+                "uid": "71d2024b-3f0f-4bec-ac8f-fb5e378e6cfb"
+            },
+            "spec": {
+                "affinity": {
+                    "nodeAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": {
+                            "nodeSelectorTerms": [
+                                {
+                                    "matchExpressions": [
+                                        {
+                                            "key": "kubernetes.io/os",
+                                            "operator": "In",
+                                            "values": [
+                                                "linux"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "podAntiAffinity": {
+                        "preferredDuringSchedulingIgnoredDuringExecution": [
+                            {
+                                "podAffinityTerm": {
+                                    "labelSelector": {
+                                        "matchExpressions": [
+                                            {
+                                                "key": "com.cloudbees.cje.type",
+                                                "operator": "In",
+                                                "values": [
+                                                    "cjoc"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "topologyKey": "kubernetes.io/hostname"
+                                },
+                                "weight": 1
+                            },
+                            {
+                                "podAffinityTerm": {
+                                    "labelSelector": {
+                                        "matchExpressions": [
+                                            {
+                                                "key": "jenkins",
+                                                "operator": "In",
+                                                "values": [
+                                                    "slave"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "topologyKey": "kubernetes.io/hostname"
+                                },
+                                "weight": 1
+                            }
+                        ]
+                    }
+                },
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "ENVIRONMENT",
+                                "value": "KUBERNETES"
+                            },
+                            {
+                                "name": "JAVA_OPTS",
+                                "value": "-Xmx2150m -Xms2150m -Djenkins.model.Jenkins.slaveAgentPortEnforce=\"true\" -Djenkins.model.Jenkins.slaveAgentPort=\"50000\" -Dhudson.TcpSlaveAgentListener.port=\"50001\" -DMASTER_GRANT_ID=\"bbf79460-a848-42ed-a45c-ebb9a2166adb\" -DMASTER_DOMAIN=\"master-a\" -Dcb.IMProp.warProfiles.cje=\"kubernetes.json\" -DMASTER_INDEX=\"0\" -DMASTER_OPERATIONSCENTER_ENDPOINT=\"http://cjoc.cloudbees-core.svc.cluster.local/cjoc\" -Dhudson.lifecycle=\"hudson.lifecycle.ExitLifecycle\" -DMASTER_NAME=\"master-a\" -DMASTER_ENDPOINT=\"https://core-gke.pcherry.uk/master-a/\" -DMASTER_RESOURCE_URL= -XshowSettings:vm -XX:MaxRAMFraction=1 -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -Dhudson.slaves.NodeProvisioner.initialDelay=0 -Dhudson.DNSMultiCast.disabled=true -Dhudson.TcpSlaveAgentListener.hostName=master-a.cloudbees-core.svc.cluster.local -DsessionTimeout=0 -Dorg.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateStepExecution.defaultImage=cloudbees/cloudbees-core-agent:2.235.2.3"
+                            },
+                            {
+                                "name": "JENKINS_OPTS",
+                                "value": "--prefix=/master-a/"
+                            },
+                            {
+                                "name": "KUBERNETES_JENKINS_URL",
+                                "value": "http://master-a.cloudbees-core.svc.cluster.local/master-a/"
+                            }
+                        ],
+                        "image": "pcherrydocker/cb-core-mm:2.235.2.3-phil",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/master-a/login",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 300,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 10
+                        },
+                        "name": "jenkins",
+                        "ports": [
+                            {
+                                "containerPort": 8080,
+                                "name": "http",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 50000,
+                                "name": "jnlp",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 100,
+                            "httpGet": {
+                                "path": "/master-a/login",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 30,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 5
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "1",
+                                "memory": "3072M"
+                            },
+                            "requests": {
+                                "cpu": "1",
+                                "memory": "3072M"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/jenkins_home",
+                                "name": "jenkins-home"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "jenkins-token-szpp6",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "hostname": "master-a-0",
+                "nodeName": "gke-cb-core-1-default-pool-4f7ac708-9c06",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 1000
+                },
+                "serviceAccount": "jenkins",
+                "serviceAccountName": "jenkins",
+                "subdomain": "master-a",
+                "terminationGracePeriodSeconds": 1200,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "jenkins-home",
+                        "persistentVolumeClaim": {
+                            "claimName": "jenkins-home-master-a-0"
+                        }
+                    },
+                    {
+                        "name": "jenkins-token-szpp6",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "jenkins-token-szpp6"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "message": "containers with unready status: [jenkins]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "message": "containers with unready status: [jenkins]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://13747461f2708a9f00d7e3647faeb3a52ccf7922d66e8c107be406cc6d648a39",
+                        "image": "pcherrydocker/cb-core-mm:2.235.2.3-phil",
+                        "imageID": "docker-pullable://pcherrydocker/cb-core-mm@sha256:3e7f7afa5e178999443229acdc0233ddfe56749154a4085e9dc1aaaba5c8efb3",
+                        "lastState": {},
+                        "name": "jenkins",
+                        "ready": false,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2020-09-10T12:28:48Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.132.0.51",
+                "phase": "Running",
+                "podIP": "10.36.2.4",
+                "podIPs": [
+                    {
+                        "ip": "10.36.2.4"
+                    }
+                ],
+                "qosClass": "Guaranteed",
+                "startTime": "2020-09-10T12:27:53Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "cluster-autoscaler.kubernetes.io/safe-to-evict": "false"
+                },
+                "creationTimestamp": "2020-08-10T15:06:33Z",
+                "generateName": "master-b-",
+                "labels": {
+                    "com.cloudbees.cje.tenant": "master-b",
+                    "com.cloudbees.cje.type": "master",
+                    "com.cloudbees.pse.tenant": "master-b",
+                    "com.cloudbees.pse.type": "master",
+                    "controller-revision-hash": "master-b-c86f6779d",
+                    "statefulset.kubernetes.io/pod-name": "master-b-0",
+                    "tenant": "master-b",
+                    "type": "master"
+                },
+                "name": "master-b-0",
+                "namespace": "cloudbees-core",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "master-b",
+                        "uid": "9a661942-d62a-4b23-8c33-e0330fd2aa39"
+                    }
+                ],
+                "resourceVersion": "100242723",
+                "selfLink": "/api/v1/namespaces/cloudbees-core/pods/master-b-0",
+                "uid": "ced7f40b-78bf-45eb-b8c2-a2247ce4edc0"
+            },
+            "spec": {
+                "affinity": {
+                    "nodeAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": {
+                            "nodeSelectorTerms": [
+                                {
+                                    "matchExpressions": [
+                                        {
+                                            "key": "kubernetes.io/os",
+                                            "operator": "In",
+                                            "values": [
+                                                "linux"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "podAntiAffinity": {
+                        "preferredDuringSchedulingIgnoredDuringExecution": [
+                            {
+                                "podAffinityTerm": {
+                                    "labelSelector": {
+                                        "matchExpressions": [
+                                            {
+                                                "key": "com.cloudbees.cje.type",
+                                                "operator": "In",
+                                                "values": [
+                                                    "cjoc"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "topologyKey": "kubernetes.io/hostname"
+                                },
+                                "weight": 1
+                            },
+                            {
+                                "podAffinityTerm": {
+                                    "labelSelector": {
+                                        "matchExpressions": [
+                                            {
+                                                "key": "jenkins",
+                                                "operator": "In",
+                                                "values": [
+                                                    "slave"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "topologyKey": "kubernetes.io/hostname"
+                                },
+                                "weight": 1
+                            }
+                        ]
+                    }
+                },
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "ENVIRONMENT",
+                                "value": "KUBERNETES"
+                            },
+                            {
+                                "name": "JAVA_OPTS",
+                                "value": "-Xmx2150m -Xms2150m -Djenkins.model.Jenkins.slaveAgentPortEnforce=\"true\" -Djenkins.model.Jenkins.slaveAgentPort=\"50000\" -Dhudson.TcpSlaveAgentListener.port=\"50002\" -DMASTER_GRANT_ID=\"c4d35063-18d2-4d2e-a201-5baba85ebd1c\" -DMASTER_DOMAIN=\"master-b\" -Dcb.IMProp.warProfiles.cje=\"kubernetes.json\" -DMASTER_INDEX=\"1\" -DMASTER_OPERATIONSCENTER_ENDPOINT=\"http://cjoc.cloudbees-core.svc.cluster.local/cjoc\" -Dhudson.lifecycle=\"hudson.lifecycle.ExitLifecycle\" -DMASTER_NAME=\"master-b\" -DMASTER_ENDPOINT=\"https://core-gke.pcherry.uk/master-b/\" -DMASTER_RESOURCE_URL= -XshowSettings:vm -XX:MaxRAMFraction=1 -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -Dhudson.slaves.NodeProvisioner.initialDelay=0 -Dhudson.DNSMultiCast.disabled=true -Dhudson.TcpSlaveAgentListener.hostName=master-b.cloudbees-core.svc.cluster.local -DsessionTimeout=0 -Dorg.csanchez.jenkins.plugins.kubernetes.pipeline.PodTemplateStepExecution.defaultImage=cloudbees/cloudbees-core-agent:2.235.2.3"
+                            },
+                            {
+                                "name": "JENKINS_OPTS",
+                                "value": "--prefix=/master-b/"
+                            },
+                            {
+                                "name": "KUBERNETES_JENKINS_URL",
+                                "value": "http://master-b.cloudbees-core.svc.cluster.local/master-b/"
+                            }
+                        ],
+                        "image": "pcherrydocker/cb-core-mm:2.235.2.3-phil",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/master-b/login",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 300,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 10
+                        },
+                        "name": "jenkins",
+                        "ports": [
+                            {
+                                "containerPort": 8080,
+                                "name": "http",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 50000,
+                                "name": "jnlp",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 100,
+                            "httpGet": {
+                                "path": "/master-b/login",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 30,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 5
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "1",
+                                "memory": "3072M"
+                            },
+                            "requests": {
+                                "cpu": "1",
+                                "memory": "3072M"
+                            }
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/var/jenkins_home",
+                                "name": "jenkins-home"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "jenkins-token-szpp6",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "hostname": "master-b-0",
+                "nodeName": "gke-cb-core-1-default-pool-4f7ac708-smb5",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 1000
+                },
+                "serviceAccount": "jenkins",
+                "serviceAccountName": "jenkins",
+                "subdomain": "master-b",
+                "terminationGracePeriodSeconds": 1200,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "jenkins-home",
+                        "persistentVolumeClaim": {
+                            "claimName": "jenkins-home-master-b-0"
+                        }
+                    },
+                    {
+                        "name": "jenkins-token-szpp6",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "jenkins-token-szpp6"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "message": "containers with unready status: [jenkins]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "message": "containers with unready status: [jenkins]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-09-10T12:27:53Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://bca99c01cfcd5b079ade7d3fe9083160a1962cee71bb00844a72675e2a48436a",
+                        "image": "pcherrydocker/cb-core-mm:2.235.2.3-phil",
+                        "imageID": "docker-pullable://pcherrydocker/cb-core-mm@sha256:3e7f7afa5e178999443229acdc0233ddfe56749154a4085e9dc1aaaba5c8efb3",
+                        "lastState": {},
+                        "name": "jenkins",
+                        "ready": false,
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2020-09-10T12:28:41Z"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.132.0.50",
+                "phase": "Running",
+                "podIP": "10.36.1.4",
+                "podIPs": [
+                    {
+                        "ip": "10.36.1.4"
+                    }
+                ],
+                "qosClass": "Guaranteed",
+                "startTime": "2020-09-10T12:27:53Z"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

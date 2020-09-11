@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-webapp-color
+  lables:
+    name: simple-webapp-color
+spec:
+  containers:
+  - name: simple-webapp-color
+    image: simple-webapp-color
+    ports:
+      - containerPort: 8080
+    emv:
+      - name: APP_COLOR
+        value: pink
+
+# There are 3 methods for specifying values:
+# 
+# 1. Plain key value (as the example above)
+# 2. ConfigMap
+# 3. Secrets
+# 
+# Example of ConfigMap entry:
+# 
+# ```yaml
+# env:
+#   - name: APP_COLOR
+#     valueFrom:
+#       configMapKeyRef:
+# ```
+# 
+# Example of Secrets:
+# 
+# ```yaml
+# env:
+#   - name: APP_COLOR
+#     valueFrom:
+#       secretKeyRef:
+# ```
+.
