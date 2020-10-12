@@ -7,3 +7,7 @@
 ## systemd definitions ##
 
 /etc/systemd/system/*.service
+
+## certs ##
+
+/etc/kubernetes/pki
