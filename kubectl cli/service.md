@@ -33,3 +33,17 @@ kubectl create service nodeport nginx --tcp=80:80 --node-port=30080 --dry-run -o
 (This will not use the pods labels as selectors)
 
 Both the above commands have their own challenges. While one of it cannot accept a selector the other cannot accept a node port. I would recommend going with the `kubectl expose` command. If you need to specify a node port, generate a definition file using the same command and manually input the nodeport before creating the service.
+
+## Expose pod / create service and specify target port ###
+
+```bash
+kubectl expose pod messaging --name messaging-service --port 6379 --target-port 6379
+```
+
+## Expose deployment ##
+
+```bash
+kubectl expose deployment hr-web-app --name hr-web-app-service --type=NodePort --port 8080 --target-port 8080 --dry-run=client -o yaml > svc.yaml
+```
+
+Note: Cannot specify the NodePort, so need to edit the yaml file
