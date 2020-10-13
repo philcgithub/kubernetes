@@ -33,3 +33,9 @@ You can rollback to previous revision.
 ```bash
 kubectl rollout undo deployment/myapp-deployment
 ```
+
+## Scale deployment / set replicas ##
+
+```bash
+kubectl scale deployment nginx --replicas=2
+```
