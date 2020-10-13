@@ -14,6 +14,12 @@ kubectl label nodes node01 size=Large
 kubectl taint nodes master node-role.kuberenetes.io/master-
 ```
 
+## Get nodes info in JSON format ##
+
+```bash
+kubectl get nodes -o json > file.json
+```
+
 ## Query osImages in JSON ##
 
 ```bash
