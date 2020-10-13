@@ -12,6 +12,8 @@ $HOME/.kube/config
 
 /etc/kubernetes/manifests/*.yaml
 
+Can also check the kublet config to see where it is.
+
 ## systemd definitions ##
 
 /etc/systemd/system/*.service
