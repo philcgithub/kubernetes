@@ -13,3 +13,9 @@ kubectl label nodes node01 size=Large
 ```bash
 kubectl taint nodes master node-role.kuberenetes.io/master-
 ```
+
+## Query osImages in JSON ##
+
+```bash
+kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.osImage}' > /opt/outputs/nodes_os_x43kj56.txt
+```
