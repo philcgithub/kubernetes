@@ -16,3 +16,28 @@ spec:
             values:
             - Large
             - Medium
+
+# To say pod can do on Large or medium labelled nodes, then change to:
+
+#          - key: size
+#            operator: In
+#            values:
+#            - Large
+#            - Medium
+
+# operators:
+
+# - In
+# - NotIn
+# - Exists (checks if key exists and doesn't check the values)
+# - (there are more)
+
+# If NodeAffinity cannot make a match based on the expression
+# requiredDuringSchedulingIgnoredDuringExecution: controls what happens
+
+# Available:
+# - requiredDuringSchedulingIgnoredDuringExecution:
+# - preferredDuringSchedulingIgnoredDuringExecution:
+
+# Planned:
+# - requiredDuringSchedulingRequiredDuringExecution:
