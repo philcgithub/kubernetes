@@ -1,5 +1,17 @@
 # Kubectl POD cli examples #
 
+## Simple run a pod ##
+
+```bash
+kubectl run nginx-pod --image=nginx
+```
+
+## Run a pod with a label ##
+
+```bash
+kubectl run messaging --image=redis:alpine -l tier-msg
+```
+
 ## To run pod and see logs in stdout (actually creates a deployment?)##
 
 ```bash
