@@ -29,3 +29,9 @@ kubectl run --generator=run-pod/v1 nginx --image=nginx --dry-run -o yaml
 ```bash
 kubectl run --restart=Never --image=busybox static-busybox --dry-run -o yaml --command -- sleep 1000 > /etc/kubernetes/manifests/static-busybox.yaml
 ```
+
+## Create pod in manifests folder ##
+
+``bash
+kubectl run --restart=Never --image=busybox static-busybox --dry-run -o yaml --command -- sleep 1000 > /etc/kubernetes/manifests/static-busybox.yaml
+```
