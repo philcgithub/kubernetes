@@ -5,6 +5,8 @@ metadata:
 spec:
   securityContext:
     runAsUser: 1000
+    capabilities:
+      add: ["SYS_TIME"]
   containers:
   - name: ubuntu
     image: ubuntu
