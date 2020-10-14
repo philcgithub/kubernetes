@@ -24,4 +24,11 @@ kubectl run --restart=Never --image=busybox static-busybox --dry-run -o yaml --c
 
 # Create pod in manifests folder
 kubectl run --restart=Never --image=busybox static-busybox --dry-run -o yaml --command -- sleep 1000 > /etc/kubernetes/manifests/static-busybox.yaml
+
+# Execute command within a pod and write output locally
+kubectl exec -it dns-lookup nslookup nginx-resolver-service > /root/CKA/nginx.svc
+
+# Run pod, execute command, remove pod
+kubectl run dns-lookup --image=busybox:1.28 --rm -it -- nslookup nginx-resolver-service > /root/nginx.svc
+kubectl run dns-lookup --image=busybox:1.28 --rm -it -- nslookup 10-32-0-5.default.pod > /root/nginx.pod
 ```
