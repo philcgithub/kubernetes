@@ -10,3 +10,8 @@ Service config is held here:
 
 cd /var/lib/kubelet/
 grep -i staticPod config.yaml
+
+OR
+
+systemctl status kubelet
+And look for startup parameter
