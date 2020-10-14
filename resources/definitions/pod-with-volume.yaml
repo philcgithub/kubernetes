@@ -19,3 +19,9 @@ spec:
   - name: secret-volume
     secret:
       secretName: dotfile-secret
+
+# emptyDir example
+#
+# volumes:
+# - name: redis-volume
+#   emptyDir: {}
