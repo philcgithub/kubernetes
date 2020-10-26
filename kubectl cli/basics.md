@@ -15,4 +15,7 @@ kubectl apply -f file.yaml --record
 
 # Explain object, shows the field options
 kubectl explain pv --recursive | less
+
+# Get cluster events
+kubectl get events
 ```
