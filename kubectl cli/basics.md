@@ -1,6 +1,12 @@
 # Kubectl basics #
 
 ```bash
+# List all api resources known to kube-apiserver
+kubectl api-resources
+
+# List the api versions known to kube-apiserver
+kubectl api-versions
+
 # Apply a yaml file new or updated
 kubectl apply -f file.yaml
 
