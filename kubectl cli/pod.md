@@ -37,4 +37,7 @@ kubectl run nginx --image=nginx --restart=Never --port=80
 
 # Run pod and expose pod with creating a service
 kubectl run nginx --image=nginx --restart=Never --port=80 --expose
+
+# debugging pod to run a command and then terminate
+kubectl run temp-busybox --image=busybox --command --restart=Never --rm -it -- wget http://10.0.0.8/
 ```
