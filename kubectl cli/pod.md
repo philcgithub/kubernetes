@@ -31,4 +31,10 @@ kubectl exec -it dns-lookup nslookup nginx-resolver-service > /root/CKA/nginx.sv
 # Run pod, execute command, remove pod
 kubectl run dns-lookup --image=busybox:1.28 --rm -it -- nslookup nginx-resolver-service > /root/nginx.svc
 kubectl run dns-lookup --image=busybox:1.28 --rm -it -- nslookup 10-32-0-5.default.pod > /root/nginx.pod
+
+# Run pod and expose pod without creating a service
+kubectl run nginx --image=nginx --restart=Never --port=80
+
+# Run pod and expose pod with creating a service
+kubectl run nginx --image=nginx --restart=Never --port=80 --expose
 ```
