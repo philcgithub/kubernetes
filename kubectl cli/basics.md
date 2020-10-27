@@ -5,7 +5,7 @@
 alias ka='kubectl apply'
 alias kc='kubectl create'
 alias kd='kubectl describe'
-allias kdel='kubectl delete'
+alias kdel='kubectl delete'
 alias kg='kubectl get'
 alias kl='kubectl logs'
 alias kr='kubectl run'
