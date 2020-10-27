@@ -1,6 +1,15 @@
 # Kubectl basics #
 
 ```bash
+# Create useful aliases
+alias ka='kubectl apply'
+alias kc='kubectl create'
+alias kd='kubectl describe'
+allias kdel='kubectl delete'
+alias kg='kubectl get'
+alias kl='kubectl logs'
+alias kr='kubectl run'
+
 # List all api resources known to kube-apiserver
 kubectl api-resources
 
@@ -18,4 +27,8 @@ kubectl explain pv --recursive | less
 
 # Get cluster events
 kubectl get events
+
+# Get pods in all namespaces
+kubectl get pods --all-namespaces
+kubectl get pods -A
 ```
